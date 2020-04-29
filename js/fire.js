@@ -281,7 +281,7 @@ function Fire(gl) {
 
     let engaged = false;
     let max_temp = 0.9;
-    let min_temp = 0.6;
+    let min_temp = 0.55;
     let decay_rate = 0.1;
 
     canvas.addEventListener('mousedown', e => {
@@ -291,6 +291,12 @@ function Fire(gl) {
         engaged = false;
     });
     canvas.addEventListener('mouseout', e => {
+        engaged = false;
+    });
+    canvas.addEventListener('ontouchstart', e => {
+        engaged = true;
+    });
+    canvas.addEventListener('ontouchend', e => {
         engaged = false;
     });
 
