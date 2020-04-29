@@ -178,7 +178,7 @@ function Fire(gl) {
 
     let self = {
         temperature:  1.0,  // 0.0 - 1.0
-        flame_height: 0.75, // 0.0 - 1.0
+        flame_height: 0.65, // 0.0 - 1.0
 
         update: function() {
             gl.useProgram(update.program);
@@ -279,15 +279,32 @@ function Fire(gl) {
     let period = 1000 / 70;  // 70 FPS (max)
     let last = 0;
 
+    let engaged = false;
+    let max_temp = 0.9;
+    let min_temp = 0.6;
+    let decay_rate = 0.1;
+
+    canvas.addEventListener('mousedown', e => {
+        engaged = true;
+    });
+    canvas.addEventListener('mouseup', e => {
+        engaged = false;
+    });
+    canvas.addEventListener('mouseout', e => {
+        engaged = false;
+    });
+
+
+
     window.addEventListener('keyup', function(e) {
         switch (e.which) {
             case 32: /* Space */
                 running = !running;
                 break;
-            case 33: /* PgUp */
+            case 37: /* Left */
                 fire.temperature = Math.min(fire.temperature + 0.1, 1);
                 break;
-            case 34: /* PgDown */
+            case 39: /* Right */
                 fire.temperature = Math.max(fire.temperature - 0.1, 0);
                 break;
             case 38: /* Up */
@@ -333,7 +350,35 @@ function Fire(gl) {
         }
     });
 
+
+
+/*    window.addEventListener("mousedown", function(){
+
+      fire.flame_height = Math.min(1.0, fire.flame_height += 0.15);
+      console.log(fire.flame_height);
+      decayFire();
+    });
+
+    function decayFire()
+    {
+      rate = 500;
+      fire.flame_height -=0.05;
+      console.log(fire.flame_height);
+      if(fire.flame_height > 0.65)
+      {
+        setTimeout(decayFire, rate)
+      }
+    }*/
+
     function cb(t) {
+        if(engaged)
+        {
+          fire.flame_height += decay_rate * (max_temp - fire.flame_height);
+        }
+        else {
+          fire.flame_height -= decay_rate * (fire.flame_height - min_temp);
+        }
+
         let ww = window.innerWidth;
         let wh = window.innerHeight;
         if (canvas.width != ww || canvas.height != wh) {
