@@ -1,4 +1,12 @@
-const WIDTH  = 512;
+var w;
+if(navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/Android/i)){
+  w = 256;
+}
+else {
+  w = 512;
+}
+
+const WIDTH  = w;//512;//Math.pow(2, Math.floor(Math.log2(784)));// 512;
 const HEIGHT = 256;
 const QUAD = new Float32Array([-1, -1, +1, -1, -1, +1, +1, +1]);
 const PALETTE = new Uint8Array([
@@ -282,6 +290,7 @@ function Fire(gl) {
     let engaged = false;
     let max_temp = 0.9;
     let min_temp = 0.50;
+    let incrase_rate = 0.2;
     let decay_rate = 0.1;
 
     window.addEventListener('mousedown', e => {
@@ -379,7 +388,7 @@ function Fire(gl) {
     function cb(t) {
         if(engaged)
         {
-          fire.flame_height += decay_rate * (max_temp - fire.flame_height);
+          fire.flame_height += incrase_rate * (max_temp - fire.flame_height);
         }
         else {
           fire.flame_height -= decay_rate * (fire.flame_height - min_temp);
