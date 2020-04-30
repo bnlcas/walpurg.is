@@ -281,22 +281,22 @@ function Fire(gl) {
 
     let engaged = false;
     let max_temp = 0.9;
-    let min_temp = 0.55;
+    let min_temp = 0.50;
     let decay_rate = 0.1;
 
-    canvas.addEventListener('mousedown', e => {
+    window.addEventListener('mousedown', e => {
         engaged = true;
     });
-    canvas.addEventListener('mouseup', e => {
+    window.addEventListener('mouseup', e => {
         engaged = false;
     });
-    canvas.addEventListener('mouseout', e => {
+    window.addEventListener('mouseout', e => {
         engaged = false;
     });
-    canvas.addEventListener('ontouchstart', e => {
+    window.addEventListener('touchstart', e => {
         engaged = true;
     });
-    canvas.addEventListener('ontouchend', e => {
+    window.addEventListener('touchend', e => {
         engaged = false;
     });
 
